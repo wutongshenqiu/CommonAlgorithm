@@ -1,0 +1,9 @@
+# rust project
+rs/debug/
+rs/target/
+rs/Cargo.lock
+rs/**/*.rs.bk
+
+# python project
+py38/.idea/
+py38/*/__pycache__/
