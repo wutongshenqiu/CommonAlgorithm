@@ -21,6 +21,7 @@ pub use self::heap::heap_sort;
 
 
 #[cfg(test)]
+#[allow(dead_code)]
 mod tests {
     use super::*;
     use test::Bencher;

@@ -1,4 +1,5 @@
 use std::fmt;
+use std::fs;
 
 
 pub struct Edge {
@@ -7,6 +8,7 @@ pub struct Edge {
     weight: i32,
 }
 
+#[allow(dead_code)]
 impl Edge {
     pub fn new(in_vertex: usize, out_vertex: usize, weight: i32) -> Edge {
         Edge {
@@ -50,6 +52,7 @@ impl<'a> Iterator for EdgeIterator<'a> {
     }
 }
 
+#[allow(dead_code)]
 /// more info can be found in [邻接表](https://wiki.jikexueyuan.com/project/easy-learn-algorithm/clever-adjacency-list.html)
 pub struct AdjacencyList {
     /// suppose the index of vertex and edge are started from 1 but not 0
@@ -64,6 +67,7 @@ pub struct AdjacencyList {
     _current_num_edges: usize,
 }
 
+#[allow(dead_code)]
 impl AdjacencyList {
     pub fn new(num_vertices: usize, num_edges: usize) -> AdjacencyList {
         AdjacencyList {
@@ -131,4 +135,49 @@ impl fmt::Display for AdjacencyList {
 
         write!(f, "{}", all_edge_strs)
     }
+}
+
+
+#[allow(dead_code)]
+pub fn load_graph_from_file(file_name: &str) -> AdjacencyList{
+    let content = fs::read_to_string(file_name)
+        .expect(&format!("fail to read file: `{}`", file_name));
+
+    let mut lines = content.lines();
+    
+    let first_line = lines.next().unwrap();
+    let first_line: Vec<&str> = first_line.split_ascii_whitespace().collect();
+    let num_vertices = first_line[0].parse::<usize>().unwrap();
+    let num_edges = first_line[1].parse::<usize>().unwrap();
+    
+    let mut graph = AdjacencyList::new(
+        num_vertices,
+        num_edges
+    );
+
+    for line in lines {
+        let line: Vec<&str> = line.split_ascii_whitespace().collect();
+        let in_vertex = line[0].parse::<usize>().unwrap();
+        let out_vertex = line[1].parse::<usize>().unwrap();
+        let weight = line[2].parse::<i32>().unwrap();
+
+        graph.add_directed_edge(in_vertex, out_vertex, weight);
+    }
+
+    graph
+}
+
+
+#[cfg(test)]
+#[allow(dead_code)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_load_graph_from_file() {
+        let graph = load_graph_from_file("src/graph/examples/1.txt");
+        assert_eq!(graph.num_edges(), 5);
+        assert_eq!(graph.num_vertices(), 4);
+    }
+
 }
