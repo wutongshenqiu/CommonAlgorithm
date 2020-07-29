@@ -1,6 +1,8 @@
 use std::fmt;
 use std::fs;
 
+mod algorithms;
+
 
 pub struct Edge {
     in_vertex: usize,
@@ -139,7 +141,7 @@ impl fmt::Display for AdjacencyList {
 
 
 #[allow(dead_code)]
-pub fn load_graph_from_file(file_name: &str) -> AdjacencyList{
+pub fn load_adj_list_from_file(file_name: &str) -> AdjacencyList{
     let content = fs::read_to_string(file_name)
         .expect(&format!("fail to read file: `{}`", file_name));
 
@@ -173,11 +175,25 @@ pub fn load_graph_from_file(file_name: &str) -> AdjacencyList{
 mod tests {
     use super::*;
 
+    const TEST_GRAPH_FILE: &str = "src/graph/examples/1.txt";
+
     #[test]
     fn test_load_graph_from_file() {
-        let graph = load_graph_from_file("src/graph/examples/1.txt");
-        assert_eq!(graph.num_edges(), 5);
-        assert_eq!(graph.num_vertices(), 4);
+        let adj_list = load_adj_list_from_file(TEST_GRAPH_FILE);
+        assert_eq!(adj_list.num_edges(), 5);
+        assert_eq!(adj_list.num_vertices(), 4);
+    }
+
+    #[test]
+    fn test_edge_iterator() {
+        let adj_list = load_adj_list_from_file(TEST_GRAPH_FILE);
+        let mut edge_iterator = adj_list.edge_iterator_of_vertex(1);
+        let edge = edge_iterator.next().unwrap();
+        assert_eq!((edge.in_vertex, edge.out_vertex, edge.weight), (1, 4, 8));
+        let edge = edge_iterator.next().unwrap();
+        assert_eq!((edge.in_vertex, edge.out_vertex, edge.weight), (1, 2, 4));
+        let edge = edge_iterator.next();
+        assert!(edge.is_none());
     }
 
 }
