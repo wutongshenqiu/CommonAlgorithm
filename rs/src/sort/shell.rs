@@ -1,4 +1,3 @@
-#[allow(dead_code)]
 pub fn shell_sort<T: Ord + Copy>(l: &mut [T]) {
     let mut gap = l.len() / 2;
 

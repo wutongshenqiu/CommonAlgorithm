@@ -1,4 +1,3 @@
-#[allow(dead_code)]
 pub fn heap_sort<T: Ord + Copy>(l: Vec<T>) -> Vec<T>{
     let mut sorted_list: Vec<T> = Vec::with_capacity(l.capacity());
 

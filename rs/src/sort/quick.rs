@@ -1,4 +1,3 @@
-#[allow(dead_code)]
 pub fn quick_sort<T: Ord + Copy>(l: &mut [T]) {
     let mut stack: Vec<(usize, usize)> = Vec::new();
 

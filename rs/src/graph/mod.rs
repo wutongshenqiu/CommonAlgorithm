@@ -2,6 +2,7 @@ use std::fmt;
 use std::fs;
 
 mod algorithms;
+mod utils;
 
 
 pub struct Edge {
@@ -10,7 +11,6 @@ pub struct Edge {
     weight: i32,
 }
 
-#[allow(dead_code)]
 impl Edge {
     pub fn new(in_vertex: usize, out_vertex: usize, weight: i32) -> Edge {
         Edge {
@@ -54,7 +54,6 @@ impl<'a> Iterator for EdgeIterator<'a> {
     }
 }
 
-#[allow(dead_code)]
 /// more info can be found in [邻接表](https://wiki.jikexueyuan.com/project/easy-learn-algorithm/clever-adjacency-list.html)
 pub struct AdjacencyList {
     /// suppose the index of vertex and edge are started from 1 but not 0
@@ -69,7 +68,6 @@ pub struct AdjacencyList {
     _current_num_edges: usize,
 }
 
-#[allow(dead_code)]
 impl AdjacencyList {
     pub fn new(num_vertices: usize, num_edges: usize) -> AdjacencyList {
         AdjacencyList {
@@ -140,7 +138,6 @@ impl fmt::Display for AdjacencyList {
 }
 
 
-#[allow(dead_code)]
 pub fn load_adj_list_from_file(file_name: &str) -> AdjacencyList{
     let content = fs::read_to_string(file_name)
         .expect(&format!("fail to read file: `{}`", file_name));
@@ -171,7 +168,6 @@ pub fn load_adj_list_from_file(file_name: &str) -> AdjacencyList{
 
 
 #[cfg(test)]
-#[allow(dead_code)]
 mod tests {
     use super::*;
 

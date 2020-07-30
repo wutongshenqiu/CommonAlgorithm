@@ -1,4 +1,3 @@
-#[allow(dead_code)]
 pub fn merge_sort<T: Ord + Copy>(l: &mut [T]) {
     let mut merge_len = 1;
 

@@ -1,4 +1,3 @@
-#[allow(dead_code)]
 pub fn insert_sort<T: Ord + Copy>(l: &mut [T]) {
     for i in 1..l.len() {
         let insert_num = l[i];

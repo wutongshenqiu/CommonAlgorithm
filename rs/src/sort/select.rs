@@ -1,4 +1,3 @@
-#[allow(dead_code)]
 pub fn select_sort<T: Ord>(l: &mut [T]) {
     for i in 0..l.len() {
         let mut min_index = i;
