@@ -2,6 +2,9 @@ use rand;
 use rand::Rng;
 use rand::seq::SliceRandom;
 
+use std::fs::File;
+use std::io::Write;
+
 use crate::graph::Edge;
 
 
@@ -21,7 +24,7 @@ impl FakeTool {
         vertices
     }
 
-    pub fn generate(&self) {
+    pub fn generate(&self) -> Vec<Edge> {
         let mut rng = rand::thread_rng();
 
         // store choosed edge
@@ -30,7 +33,7 @@ impl FakeTool {
         // get number of edge for each vertex
         let num_edges = gen_random_integers(self.num_vertices, self.num_edges, (1, self.num_vertices));
         
-        println!("{:?}", num_edges);
+        // println!("{:?}", num_edges);
 
         for (in_vertex, num_edge) in num_edges.iter().enumerate() {
             let in_vertex = in_vertex + 1;
@@ -66,10 +69,18 @@ impl FakeTool {
                 }
             }
         }
+        edges
+    }
 
-        for edge in edges.iter() {
-            println!("{}", edge);
+    pub fn write_to_file(&self, edges: Vec<Edge>, file_name: &str) {
+        let mut file = File::create(file_name).unwrap();
+
+        writeln!(file, "{} {}", self.num_vertices, self.num_edges).unwrap();
+
+        for edge in edges {
+            writeln!(file, "{} {} {}", edge.in_vertex, edge.out_vertex, edge.weight).unwrap();
         }
+
     }
 }
 
@@ -171,15 +182,20 @@ pub fn gen_random_integers(m: usize, n: usize, m_range: (usize, usize)) -> Vec<u
 mod tests {
     use super::*;
 
+    const TEST_GRAPH_DIR: &str = "src/graph/examples";
+
     #[test]
-    fn test_faketool_generate() {
+    fn test_faketool_write_to_file() {
         let fake_tool = FakeToolBuilder::new()
-            .set_num_vertices(10)
-            .set_num_edges(30)
+            .set_num_vertices(1000)
+            .set_num_edges(150000)
             .set_weight_range((-10, 20))
             .finish();
 
-        fake_tool.generate();
+        for i in 2..10 {
+            let edges = fake_tool.generate();
+            fake_tool.write_to_file(edges, &format!("{}/{}.txt", TEST_GRAPH_DIR, i));
+        }
     }
 
     #[test]
