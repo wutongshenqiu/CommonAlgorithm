@@ -188,9 +188,35 @@ mod tests {
     const COMPLICATED_GRAPH: (usize, usize) = (10000, 5000000);
     
     const WEIGHT_RANGE: (i32, i32) = (-10, 20);
+    const POSITIVE_WEIGHT_RANGE: (i32, i32) = (1, 10);
 
-    #[test]
-    fn test_faketool_write_to_file() {
+    fn  generate_positive_fake_graph_file() {
+        let mut faketool_builder = FakeToolBuilder::new()
+                                                        .set_weight_range(POSITIVE_WEIGHT_RANGE);
+
+        let simple_graph_faketool = faketool_builder.set_num_vertices(SIMPLE_GRAPH.0)
+                                                                          .set_num_edges(SIMPLE_GRAPH.1)
+                                                                          .finish();
+
+        let edges = simple_graph_faketool.generate();
+        simple_graph_faketool.write_to_file(edges, &format!("{}/{}.txt", GRAPH_DIR, "positive_simple"));
+
+        let medium_graph_faketool = faketool_builder.set_num_vertices(MEDIUM_GRAPH.0)
+                                                              .set_num_edges(MEDIUM_GRAPH.1)
+                                                              .finish();
+
+        let edges = medium_graph_faketool.generate();
+        medium_graph_faketool.write_to_file(edges, &format!("{}/{}.txt", GRAPH_DIR, "positive_medium"));
+
+        let complicated_graph_faketool = faketool_builder.set_num_vertices(COMPLICATED_GRAPH.0)
+                                                                   .set_num_edges(COMPLICATED_GRAPH.1)
+                                                                   .finish();
+
+        let edges = complicated_graph_faketool.generate();
+        complicated_graph_faketool.write_to_file(edges, &format!("{}/{}.txt", GRAPH_DIR, "positive_complicated"));
+    }
+
+    fn generate_fake_graph_file() {
         let mut faketool_builder = FakeToolBuilder::new()
                                                         .set_weight_range(WEIGHT_RANGE);
 
