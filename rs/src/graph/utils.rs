@@ -119,7 +119,7 @@ impl FakeToolBuilder {
         self
     }
 
-    pub fn set_weight_range(&mut self, weight_range: (i32, i32)) -> &mut Self {
+    pub fn set_weight_range(mut self, weight_range: (i32, i32)) -> Self {
         self.weight_range = weight_range;
         self
     }
@@ -182,20 +182,38 @@ pub fn gen_random_integers(m: usize, n: usize, m_range: (usize, usize)) -> Vec<u
 mod tests {
     use super::*;
 
-    const TEST_GRAPH_DIR: &str = "src/graph/examples";
+    const GRAPH_DIR: &str = "src/graph/examples";
+    const SIMPLE_GRAPH: (usize, usize) = (100, 1500);
+    const MEDIUM_GRAPH: (usize, usize) = (1000, 150000);
+    const COMPLICATED_GRAPH: (usize, usize) = (10000, 5000000);
+    
+    const WEIGHT_RANGE: (i32, i32) = (-10, 20);
 
     #[test]
     fn test_faketool_write_to_file() {
-        let fake_tool = FakeToolBuilder::new()
-            .set_num_vertices(1000)
-            .set_num_edges(150000)
-            .set_weight_range((-10, 20))
-            .finish();
+        let mut faketool_builder = FakeToolBuilder::new()
+                                                        .set_weight_range(WEIGHT_RANGE);
 
-        for i in 2..10 {
-            let edges = fake_tool.generate();
-            fake_tool.write_to_file(edges, &format!("{}/{}.txt", TEST_GRAPH_DIR, i));
-        }
+        let simple_graph_faketool = faketool_builder.set_num_vertices(SIMPLE_GRAPH.0)
+                                                                          .set_num_edges(SIMPLE_GRAPH.1)
+                                                                          .finish();
+
+        let edges = simple_graph_faketool.generate();
+        simple_graph_faketool.write_to_file(edges, &format!("{}/{}.txt", GRAPH_DIR, "simple"));
+
+        let medium_graph_faketool = faketool_builder.set_num_vertices(MEDIUM_GRAPH.0)
+                                                              .set_num_edges(MEDIUM_GRAPH.1)
+                                                              .finish();
+
+        let edges = medium_graph_faketool.generate();
+        medium_graph_faketool.write_to_file(edges, &format!("{}/{}.txt", GRAPH_DIR, "medium"));
+
+        let complicated_graph_faketool = faketool_builder.set_num_vertices(COMPLICATED_GRAPH.0)
+                                                                   .set_num_edges(COMPLICATED_GRAPH.1)
+                                                                   .finish();
+
+        let edges = complicated_graph_faketool.generate();
+        complicated_graph_faketool.write_to_file(edges, &format!("{}/{}.txt", GRAPH_DIR, "complicated"));
     }
 
     #[test]

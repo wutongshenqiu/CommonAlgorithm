@@ -85,7 +85,7 @@ impl Graph {
 mod tests {
     use super::*;
 
-    const TEST_GRAPH_FILE: &str = "src/graph/examples/1.txt";
+    const TEST_GRAPH_FILE: &str = "src/graph/examples/test.txt";
 
     #[test]
     fn test_graph_dfs() {

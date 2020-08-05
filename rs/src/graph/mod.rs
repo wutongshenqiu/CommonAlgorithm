@@ -171,7 +171,7 @@ pub fn load_adj_list_from_file(file_name: &str) -> AdjacencyList{
 mod tests {
     use super::*;
 
-    const TEST_GRAPH_FILE: &str = "src/graph/examples/1.txt";
+    const TEST_GRAPH_FILE: &str = "src/graph/examples/test.txt";
 
     #[test]
     fn test_load_graph_from_file() {
