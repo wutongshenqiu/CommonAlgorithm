@@ -3,3 +3,4 @@
 
 mod sort;
 mod graph;
+mod heap;

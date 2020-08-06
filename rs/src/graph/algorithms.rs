@@ -1,3 +1,5 @@
+extern crate test;
+
 use super::AdjacencyList;
 use super::load_adj_list_from_file;
 
@@ -167,8 +169,8 @@ impl Graph {
             }
         }
 
-        println!("{:?}", distance);
-        println!("{:?}", visited);
+        // println!("{:?}", distance);
+        // println!("{:?}", visited);
     }
 }
 
@@ -176,9 +178,16 @@ impl Graph {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use test::Bencher;
 
     const TEST_GRAPH_FILE: &str = "src/graph/examples/test.txt";
     const POSITIVE_TEST_GRAPH_FILE: &str = "src/graph/examples/positive_test.txt";
+    const SIMPLE_GRAPH_FILE: &str = "src/graph/examples/simple.txt";
+    const POSITIVE_SIMPLE_GRAPH_FILE: &str = "src/graph/examples/positive_simple.txt";
+    const MEDIUM_GRAPH_FILE: &str = "src/graph/examples/medium.txt";
+    const POSITIVE_MEDIUM_GRAPH_FILE: &str = "src/graph/examples/positive_medium.txt";
+    const COMPLICATED_GRAPH_FILE: &str = "src/graph/examples/complicated.txt";
+    const POSITIVE_COMPLICATED_GRAPH_FILE: &str = "src/graph/examples/positive_complicated.txt";
 
     #[test]
     fn test_graph_dfs() {
@@ -196,5 +205,14 @@ mod tests {
     fn test_graph_dijkstra() {
         let graph = Graph::create_from_file(POSITIVE_TEST_GRAPH_FILE);
         graph.dijkstra(4);
+    }
+
+    #[bench]
+    fn bench_graph_dijkstra(b: &mut Bencher) {
+        let graph = Graph::create_from_file(POSITIVE_COMPLICATED_GRAPH_FILE);
+
+        b.iter(|| {
+            graph.dijkstra(1);
+        });
     }
 }
