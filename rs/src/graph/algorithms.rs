@@ -122,6 +122,8 @@ impl Graph {
         // todo
         // https://stackoverflow.com/questions/14252582/how-can-i-use-binary-heap-in-the-dijkstra-algorithm
         // maybe we need heap with map
+        // solution below require weight be unique, this is surely not applicable to our case
+        // https://stackoverflow.com/questions/17009056/how-to-implement-ologn-decrease-key-operation-for-min-heap-based-priority-queu
         // or just skip but need more allocate
         let mut heap: BinaryHeap<Edge> = BinaryHeap::with_capacity(self.adj_list.num_edges());
 
@@ -188,6 +190,7 @@ mod tests {
     const POSITIVE_MEDIUM_GRAPH_FILE: &str = "src/graph/examples/positive_medium.txt";
     const COMPLICATED_GRAPH_FILE: &str = "src/graph/examples/complicated.txt";
     const POSITIVE_COMPLICATED_GRAPH_FILE: &str = "src/graph/examples/positive_complicated.txt";
+    // const POSITIVE_DENSE_GRAPH_FILE: &str = "src/graph/examples/positive_dense.txt";
 
     #[test]
     fn test_graph_dfs() {
@@ -210,6 +213,7 @@ mod tests {
     #[bench]
     fn bench_graph_dijkstra(b: &mut Bencher) {
         let graph = Graph::create_from_file(POSITIVE_COMPLICATED_GRAPH_FILE);
+        // let graph = Graph::create_from_file(POSITIVE_DENSE_GRAPH_FILE);
 
         b.iter(|| {
             graph.dijkstra(1);

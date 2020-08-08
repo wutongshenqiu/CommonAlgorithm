@@ -189,6 +189,7 @@ mod tests {
     const SIMPLE_GRAPH: (usize, usize) = (1000, 50000);
     const MEDIUM_GRAPH: (usize, usize) = (10000, 1000000);
     const COMPLICATED_GRAPH: (usize, usize) = (30000, 5000000);
+    const DENSE_GRAPH: (usize, usize) = (10000, 20000000);
     const WEIGHT_RANGE: (i32, i32) = (-100, 200);
     const POSITIVE_WEIGHT_RANGE: (i32, i32) = (1, 100);
 
@@ -223,6 +224,17 @@ mod tests {
             edges,
             &format!("{}/{}.txt", GRAPH_DIR, "positive_complicated"),
         );
+
+        // let dense_graph_faketool = faketool_builder
+        //     .set_num_vertices(DENSE_GRAPH.0)
+        //     .set_num_edges(DENSE_GRAPH.1)
+        //     .finish();
+
+        // let edges = dense_graph_faketool.generate();
+        // dense_graph_faketool.write_to_file(
+        //     edges,
+        //     &format!("{}/{}.txt", GRAPH_DIR, "positive_dense"),
+        // );    
     }
 
     fn generate_fake_graph_file() {
