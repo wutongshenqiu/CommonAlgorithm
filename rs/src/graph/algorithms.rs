@@ -181,7 +181,7 @@ impl Graph {
 mod tests {
     use super::*;
     use test::Bencher;
-
+    
     const TEST_GRAPH_FILE: &str = "src/graph/examples/test.txt";
     const POSITIVE_TEST_GRAPH_FILE: &str = "src/graph/examples/positive_test.txt";
     const SIMPLE_GRAPH_FILE: &str = "src/graph/examples/simple.txt";
